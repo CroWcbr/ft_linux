@@ -1,0 +1,13 @@
+## Introduction
+- The LFS system will be built by using an already installed Linux distribution
+- setting VM
+	- 20 GB of dynamic memory (for debian system)
+	- 4 processors 
+	- 8 GB of RAM
+	- network bridge
+- install debian on VM
+- setting up ssh connection by bridge
+```
+nano /etc/ssh/sshd_config
+PermitRootLogin yes (change value)
+```
