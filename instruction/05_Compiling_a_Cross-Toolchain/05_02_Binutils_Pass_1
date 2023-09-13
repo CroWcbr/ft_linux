@@ -1,0 +1,57 @@
+## Binutils-2.41 - Pass 1
+- command
+```
+cd $LFS/sources
+wget https://sourceware.org/pub/binutils/releases/binutils-2.41.tar.xz
+tar xf binutils
+cd binutils
+mkdir -v build
+cd       build
+
+../configure --prefix=$LFS/tools \
+             --with-sysroot=$LFS \
+             --target=$LFS_TGT   \
+             --disable-nls       \
+             --enable-gprofng=no \
+             --disable-werror
+
+make
+make install
+
+```
+- terminal
+```
+lfs@debian:~$ cd $LFS/sources
+lfs@debian:/mnt/lfs/sources$ wget https://sourceware.org/pub/binutils/releases/binutils-2.41.tar.xz
+--2023-09-13 20:04:24--  https://sourceware.org/pub/binutils/releases/binutils-2.41.tar.xz
+Resolving sourceware.org (sourceware.org)... 8.43.85.97, 2620:52:3:1:0:246e:9693:128c
+Connecting to sourceware.org (sourceware.org)|8.43.85.97|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 26765692 (26M) [application/x-xz]
+Saving to: 'binutils-2.41.tar.xz'
+
+binutils-2.41.tar.xz        100%[=========================================>]  25.53M  4.77MB/s    in 14s
+
+2023-09-13 20:04:39 (1.85 MB/s) - 'binutils-2.41.tar.xz' saved [26765692/26765692]
+
+lfs@debian:/mnt/lfs/sources$ tar xf binutils-2.41.tar.xz
+lfs@debian:/mnt/lfs/sources$ cd binutils-2.41
+lfs@debian:/mnt/lfs/sources/binutils-2.41$ mkdir -v build
+mkdir: created directory 'build'
+lfs@debian:/mnt/lfs/sources/binutils-2.41$ cd build
+lfs@debian:/mnt/lfs/sources/binutils-2.41/build$
+
+lfs@debian:/mnt/lfs/sources/binutils-2.41/build$ ../configure --prefix=$LFS/tools \
+             --with-sysroot=$LFS \
+             --target=$LFS_TGT   \
+             --disable-nls       \
+             --enable-gprofng=no \
+             --disable-werror
+.................................
+
+lfs@debian:/mnt/lfs/sources/binutils-2.41/build$ make
+.................................
+
+lfs@debian:/mnt/lfs/sources/binutils-2.41/build$ make install
+.................................
+```

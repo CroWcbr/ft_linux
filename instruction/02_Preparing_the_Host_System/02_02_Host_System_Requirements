@@ -40,6 +40,8 @@ uname -a
 ```
 apt-get install xz-utils
 ```
+### Additional application
+- wget for download package
 
 ### Check
 - use script

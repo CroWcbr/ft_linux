@@ -1,0 +1,164 @@
+## GCC-13.2.0 - Pass 1
+- command
+```
+cd $LFS/sources
+wget https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz
+tar xf gcc
+
+wget https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.0.tar.xz
+wget https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
+wget https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz
+
+сd gcc
+tar -xf ../mpfr-4.2.0.tar.xz
+mv -v mpfr-4.2.0 mpfr
+tar -xf ../gmp-6.3.0.tar.xz
+mv -v gmp-6.3.0 gmp
+tar -xf ../mpc-1.3.1.tar.gz
+mv -v mpc-1.3.1 mpc
+
+case $(uname -m) in
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+ ;;
+esac
+
+mkdir -v build
+cd       build
+
+../configure                  \
+    --target=$LFS_TGT         \
+    --prefix=$LFS/tools       \
+    --with-glibc-version=2.38 \
+    --with-sysroot=$LFS       \
+    --with-newlib             \
+    --without-headers         \
+    --enable-default-pie      \
+    --enable-default-ssp      \
+    --disable-nls             \
+    --disable-shared          \
+    --disable-multilib        \
+    --disable-threads         \
+    --disable-libatomic       \
+    --disable-libgomp         \
+    --disable-libquadmath     \
+    --disable-libssp          \
+    --disable-libvtv          \
+    --disable-libstdcxx       \
+    --enable-languages=c,c++
+
+make
+make install
+
+cd ..
+cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+  `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include/limits.h
+```
+
+- terminal
+```
+lfs@debian:~$ cd $LFS/sources
+lfs@debian:/mnt/lfs/sources$ wget https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz
+--2023-09-13 20:21:56--  https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz
+Resolving ftp.gnu.org (ftp.gnu.org)... 209.51.188.20, 2001:470:142:3::b
+Connecting to ftp.gnu.org (ftp.gnu.org)|209.51.188.20|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 87858592 (84M) [application/x-xz]
+Saving to: 'gcc-13.2.0.tar.xz'
+
+gcc-13.2.0.tar.xz           100%[=========================================>]  83.79M  4.87MB/s    in 13s     
+
+2023-09-13 20:22:10 (6.25 MB/s) - 'gcc-13.2.0.tar.xz' saved [87858592/87858592]
+
+lfs@debian:/mnt/lfs/sources$ tar xf gcc-13.2.0.tar.xz 
+
+lfs@debian:/mnt/lfs/sources$ wget https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.0.tar.xz
+--2023-09-13 20:28:14--  https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.0.tar.xz
+Resolving ftp.gnu.org (ftp.gnu.org)... 209.51.188.20, 2001:470:142:3::b
+Connecting to ftp.gnu.org (ftp.gnu.org)|209.51.188.20|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1477532 (1.4M) [application/x-xz]
+Saving to: 'mpfr-4.2.0.tar.xz'
+
+mpfr-4.2.0.tar.xz           100%[=========================================>]   1.41M   337KB/s    in 5.2s    
+
+2023-09-13 20:28:20 (279 KB/s) - 'mpfr-4.2.0.tar.xz' saved [1477532/1477532]
+
+lfs@debian:/mnt/lfs/sources$ wget https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
+--2023-09-13 20:29:29--  https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
+Resolving ftp.gnu.org (ftp.gnu.org)... 209.51.188.20, 2001:470:142:3::b
+Connecting to ftp.gnu.org (ftp.gnu.org)|209.51.188.20|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2094196 (2.0M) [application/x-xz]
+Saving to: 'gmp-6.3.0.tar.xz'
+
+gmp-6.3.0.tar.xz            100%[=========================================>]   2.00M  2.96MB/s    in 0.7s    
+
+2023-09-13 20:29:30 (2.96 MB/s) - 'gmp-6.3.0.tar.xz' saved [2094196/2094196]
+
+lfs@debian:/mnt/lfs/sources$ wget https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz
+--2023-09-13 20:29:46--  https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz
+Resolving ftp.gnu.org (ftp.gnu.org)... 209.51.188.20, 2001:470:142:3::b
+Connecting to ftp.gnu.org (ftp.gnu.org)|209.51.188.20|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 773573 (755K) [application/x-gzip]
+Saving to: 'mpc-1.3.1.tar.gz'
+
+mpc-1.3.1.tar.gz            100%[=========================================>] 755.44K   602KB/s    in 1.3s    
+
+2023-09-13 20:29:47 (602 KB/s) - 'mpc-1.3.1.tar.gz' saved [773573/773573]
+
+lfs@debian:/mnt/lfs/sources$ cd gcc-13.2.0
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ tar -xf ../mpfr-4.2.0.tar.xz
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ mv -v mpfr-4.2.0 mpfr
+renamed 'mpfr-4.2.0' -> 'mpfr'
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ tar -xf ../gmp-6.3.0.tar.xz
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ mv -v gmp-6.3.0 gmp
+renamed 'gmp-6.3.0' -> 'gmp'
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ tar -xf ../mpc-1.3.1.tar.gz
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ mv -v mpc-1.3.1 mpc
+renamed 'mpc-1.3.1' -> 'mpc'
+
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ case $(uname -m) in
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+ ;;
+esac
+
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0/build$ mkdir -v build
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0/build$ cd build
+
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0/build$ ../configure \
+    --target=$LFS_TGT         \
+    --prefix=$LFS/tools       \
+    --with-glibc-version=2.38 \
+    --with-sysroot=$LFS       \
+    --with-newlib             \
+    --without-headers         \
+    --enable-default-pie      \
+    --enable-default-ssp      \
+    --disable-nls             \
+    --disable-shared          \
+    --disable-multilib        \
+    --disable-threads         \
+    --disable-libatomic       \
+    --disable-libgomp         \
+    --disable-libquadmath     \
+    --disable-libssp          \
+    --disable-libvtv          \
+    --disable-libstdcxx       \
+    --enable-languages=c,c++
+
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0/build$ make
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0/build$ make install
+
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0/build$ cd ..
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+  `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include/limits.h
+lfs@debian:/mnt/lfs/sources/gcc-13.2.0$ ls -l $LFS/tools/lib/gcc/x86_64-lfs-linux-gnu/13.2.0/install-tools/include/
+total 12
+-rw-r--r-- 1 lfs lfs  750 Sep 13 20:56 README
+-rw-r--r-- 1 lfs lfs 4718 Sep 13 20:56 limits.h
+```

@@ -1,0 +1,126 @@
+## Glibc-2.38
+- command
+```
+cd $LFS/sources
+wget https://ftp.gnu.org/gnu/glibc/glibc-2.38.tar.xz
+tar xf glibc
+cd glibc
+
+case $(uname -m) in
+    i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
+    ;;
+    x86_64) ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64
+            ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.3
+    ;;
+esac
+
+cd ..
+wget https://www.linuxfromscratch.org/patches/lfs/12.0/glibc-2.38-fhs-1.patch
+cd glibc
+patch -Np1 -i ../glibc-2.38-fhs-1.patch
+
+mkdir -v build
+cd       build
+
+echo "rootsbindir=/usr/sbin" > configparms
+
+../configure                             \
+      --prefix=/usr                      \
+      --host=$LFS_TGT                    \
+      --build=$(../scripts/config.guess) \
+      --enable-kernel=4.14               \
+      --with-headers=$LFS/usr/include    \
+      libc_cv_slibdir=/usr/lib
+
+make
+make DESTDIR=$LFS install
+
+sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd
+
+echo 'int main(){}' | $LFS_TGT-gcc -xc -
+readelf -l a.out | grep ld-linux
+rm -v a.out
+
+```
+- terminal
+```
+lfs@debian:~$ cd $LFS/sources
+lfs@debian:/mnt/lfs/sources$ wget https://ftp.gnu.org/gnu/glibc/glibc-2.38.tar.xz
+--2023-09-13 22:04:26--  https://ftp.gnu.org/gnu/glibc/glibc-2.38.tar.xz
+Resolving ftp.gnu.org (ftp.gnu.org)... 209.51.188.20, 2001:470:142:3::b
+Connecting to ftp.gnu.org (ftp.gnu.org)|209.51.188.20|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 18913712 (18M) [application/x-xz]
+Saving to: 'glibc-2.38.tar.xz'
+
+glibc-2.38.tar.xz       100%[===============================>]  18.04M  8.59MB/s    in 2.1s    
+
+2023-09-13 22:04:29 (8.59 MB/s) - 'glibc-2.38.tar.xz' saved [18913712/18913712]
+
+lfs@debian:/mnt/lfs/sources$ tar xf glibc-2.38.tar.xz 
+lfs@debian:/mnt/lfs/sources$ cd glibc-2.38
+
+lfs@debian:/mnt/lfs/sources/glibc-2.38$ case $(uname -m) in
+    i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
+    ;;
+    x86_64) ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64
+            ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.3
+    ;;
+esac
+'/mnt/lfs/lib64/ld-linux-x86-64.so.2' -> '../lib/ld-linux-x86-64.so.2'
+'/mnt/lfs/lib64/ld-lsb-x86-64.so.3' -> '../lib/ld-linux-x86-64.so.2'
+
+lfs@debian:/mnt/lfs/sources/glibc-2.38$ ls -l ../../lib64/
+total 0
+lrwxrwxrwx 1 lfs lfs 27 Sep 13 22:07 ld-linux-x86-64.so.2 -> ../lib/ld-linux-x86-64.so.2
+lrwxrwxrwx 1 lfs lfs 27 Sep 13 22:07 ld-lsb-x86-64.so.3 -> ../lib/ld-linux-x86-64.so.2
+
+lfs@debian:/mnt/lfs/sources/glibc-2.38$ cd ..
+lfs@debian:/mnt/lfs/sources$ wget https://www.linuxfromscratch.org/patches/lfs/12.0/glibc-2.38-fhs-1.patch
+--2023-09-13 22:12:33--  https://www.linuxfromscratch.org/patches/lfs/12.0/glibc-2.38-fhs-1.patch
+Resolving www.linuxfromscratch.org (www.linuxfromscratch.org)... 208.118.68.85
+Connecting to www.linuxfromscratch.org (www.linuxfromscratch.org)|208.118.68.85|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2804 (2.7K)
+Saving to: 'glibc-2.38-fhs-1.patch'
+
+glibc-2.38-fhs-1.patch  100%[===============================>]   2.74K  --.-KB/s    in 0s      
+
+2023-09-13 22:12:35 (23.6 MB/s) - 'glibc-2.38-fhs-1.patch' saved [2804/2804]
+
+lfs@debian:/mnt/lfs/sources$ cd glibc-2.38                 
+lfs@debian:/mnt/lfs/sources/glibc-2.38$ patch -Np1 -i ../glibc-2.38-fhs-1.patch
+patching file Makeconfig
+Hunk #1 succeeded at 262 (offset 12 lines).
+patching file nscd/nscd.h
+Hunk #1 succeeded at 160 (offset 48 lines).
+patching file nss/db-Makefile
+Hunk #1 succeeded at 21 (offset -1 lines).
+patching file sysdeps/generic/paths.h
+patching file sysdeps/unix/sysv/linux/paths.h
+
+lfs@debian:/mnt/lfs/sources/glibc-2.38$ mkdir -v build
+mkdir: created directory 'build'
+lfs@debian:/mnt/lfs/sources/glibc-2.38$ cd build
+
+lfs@debian:/mnt/lfs/sources/glibc-2.38/build$ ../configure                             \
+      --prefix=/usr                      \
+      --host=$LFS_TGT                    \
+      --build=$(../scripts/config.guess) \
+      --enable-kernel=4.14               \
+      --with-headers=$LFS/usr/include    \
+      libc_cv_slibdir=/usr/lib
+...........................
+
+lfs@debian:/mnt/lfs/sources/glibc-2.38$ make
+...........................
+lfs@debian:/mnt/lfs/sources/glibc-2.38$ make DESTDIR=$LFS install
+...........................
+
+lfs@debian:/mnt/lfs/sources/glibc-2.38/build$ sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd
+lfs@debian:/mnt/lfs/sources/glibc-2.38/build$ echo 'int main(){}' | $LFS_TGT-gcc -xc -
+lfs@debian:/mnt/lfs/sources/glibc-2.38/build$ readelf -l a.out | grep ld-linux
+      [Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]
+lfs@debian:/mnt/lfs/sources/glibc-2.38/build$ rm -v a.out
+removed 'a.out'
+```

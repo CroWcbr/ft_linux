@@ -1,0 +1,16 @@
+## Setting The $LFS Variable
+- add $LFS
+```
+root@debian:/home/crow# export LFS=/mnt/lfs
+root@debian:/home/crow# echo $LFS
+/mnt/lfs
+```
+- from root and user add to ~/.bashrc
+```
+echo 'export LFS=/mnt/lfs' >> ~/.bashrc
+```
+- add to .profile and /home/USER/.profile
+```
+# set LFS
+export LFS=/mnt/lfs
+```

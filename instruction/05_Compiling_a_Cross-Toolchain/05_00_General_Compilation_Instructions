@@ -1,0 +1,26 @@
+## General Compilation Instructions
+-check
+```
+echo $LFS
+sh is a symbolic link to bash.
+/usr/bin/awk is a symbolic link to gawk.
+/usr/bin/yacc is a symbolic link to bison, or to a small script that executes bison.
+```
+-terminal
+```
+lfs@debian:~$ echo $LFS
+/mnt/lfs
+
+lfs@debian:~$ ls -la /usr/bin/awk
+lrwxrwxrwx 1 root root 21 Jun 17  2022 /usr/bin/awk -> /etc/alternatives/awk
+lfs@debian:~$ ls -la /etc/alternatives/awk 
+lrwxrwxrwx 1 root root 13 Sep 13 12:43 /etc/alternatives/awk -> /usr/bin/gawk
+
+lfs@debian:~$ ls -la /usr/bin/yacc
+lrwxrwxrwx 1 root root 22 Sep 19  2022 /usr/bin/yacc -> /etc/alternatives/yacc
+lfs@debian:~$ ls -la /etc/alternatives/yacc
+lrwxrwxrwx 1 root root 19 Sep 19  2022 /etc/alternatives/yacc -> /usr/bin/bison.yacc
+
+lfs@debian:~$ ls -la /bin/sh
+lrwxrwxrwx 1 root root 4 Sep 13 12:58 /bin/sh -> bash
+```

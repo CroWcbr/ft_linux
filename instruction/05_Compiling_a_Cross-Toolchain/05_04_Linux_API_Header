@@ -1,0 +1,41 @@
+## Linux-6.4.12 API Headers
+- command
+```
+cd $LFS/sources
+wger https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.16.tar.xz
+
+make mrproper
+
+make headers
+find usr/include -type f ! -name '*.h' -delete
+cp -rv usr/include $LFS/usr
+
+
+```
+- terminal
+```
+lfs@debian:~$ cd $LFS/sources
+lfs@debian:/mnt/lfs/sources$ wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.16.tar.
+xz
+--2023-09-13 21:54:47--  https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.16.tar.xz
+Resolving cdn.kernel.org (cdn.kernel.org)... 151.101.1.176, 151.101.65.176, 151.101.129.176, ...
+Connecting to cdn.kernel.org (cdn.kernel.org)|151.101.1.176|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 137890316 (132M) [application/x-xz]
+Saving to: 'linux-6.4.16.tar.xz'
+
+linux-6.4.16.tar.xz     100%[===============================>] 131.50M  10.2MB/s    in 14s     
+
+2023-09-13 21:55:02 (9.20 MB/s) - 'linux-6.4.16.tar.xz' saved [137890316/137890316]
+
+lfs@debian:/mnt/lfs/sources$ tar xf linux-6.4.16.tar.xz 
+lfs@debian:/mnt/lfs/sources$ cd linux-6.4.16
+lfs@debian:/mnt/lfs/sources/linux-6.4.16$ make mrproper
+lfs@debian:/mnt/lfs/sources/linux-6.4.16$ make headers
+..........................
+
+lfs@debian:/mnt/lfs/sources/linux-6.4.16$ find usr/include -type f ! -name '*.h' -delete
+lfs@debian:/mnt/lfs/sources/linux-6.4.16$ cp -rv usr/include $LFS/usr
+..........................
+
+```

@@ -1,0 +1,60 @@
+## Adding the LFS User
+- command : create the required directory
+```
+groupadd lfs
+useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+passwd lfs
+id lfs
+
+chown -v lfs $LFS/{usr{,/*},lib,var,etc,bin,sbin,tools}
+case $(uname -m) in
+  x86_64) chown -v lfs $LFS/lib64 ;;
+esac
+
+su - lfs
+```
+- terminal
+```
+root@debian:~# groupadd lfs
+root@debian:~# useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+root@debian:~# passwd lfs
+New password:
+Retype new password:
+passwd: password updated successfully
+root@debian:~# id lfs
+uid=1001(lfs) gid=1001(lfs) groups=1001(lfs)
+
+root@debian:~# chown -v lfs $LFS/{usr{,/*},lib,var,etc,bin,sbin,tools}
+case $(uname -m) in
+  x86_64) chown -v lfs $LFS/lib64 ;;
+esac
+changed ownership of '/mnt/lfs/usr' from root to lfs
+changed ownership of '/mnt/lfs/usr/bin' from root to lfs
+changed ownership of '/mnt/lfs/usr/lib' from root to lfs
+changed ownership of '/mnt/lfs/usr/sbin' from root to lfs
+ownership of '/mnt/lfs/lib' retained as lfs
+changed ownership of '/mnt/lfs/var' from root to lfs
+changed ownership of '/mnt/lfs/etc' from root to lfs
+ownership of '/mnt/lfs/bin' retained as lfs
+ownership of '/mnt/lfs/sbin' retained as lfs
+changed ownership of '/mnt/lfs/tools' from root to lfs
+changed ownership of '/mnt/lfs/lib64' from root to lfs
+
+root@debian:~# ls -l /mnt/lfs
+total 40
+lrwxrwxrwx 1 root root     7 Sep 13 15:47 bin -> usr/bin
+drwxr-xr-x 2 lfs  root  4096 Sep 13 15:46 etc
+lrwxrwxrwx 1 root root     7 Sep 13 15:47 lib -> usr/lib
+drwxr-xr-x 2 lfs  root  4096 Sep 13 15:50 lib64
+drwx------ 2 root root 16384 Sep 13 03:16 lost+found
+lrwxrwxrwx 1 root root     8 Sep 13 15:47 sbin -> usr/sbin
+drwxrwxrwt 2 root root  4096 Sep 13 15:03 sources
+drwxr-xr-x 2 lfs  root  4096 Sep 13 16:01 tools
+drwxr-xr-x 5 lfs  root  4096 Sep 13 15:46 usr
+drwxr-xr-x 2 lfs  root  4096 Sep 13 15:46 var
+
+root@debian:~# su - lfs
+lfs@debian:~$ id
+uid=1001(lfs) gid=1001(lfs) groups=1001(lfs)
+lfs@debian:~$
+```
