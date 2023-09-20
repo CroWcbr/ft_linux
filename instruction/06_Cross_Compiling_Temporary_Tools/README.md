@@ -1,0 +1,18 @@
+## Cross Compiling Temporary Tools
+- M4-1.4.19
+- Ncurses-6.4
+- Bash-5.2.15
+- Coreutils-9.3
+- Diffutils-3.10
+- File-5.45
+- Findutils-4.9.0
+- Gawk-5.2.2
+- Grep-3.11
+- Gzip-1.12
+- Make-4.4.1
+- Patch-2.7.6
+- Sed-4.9
+- Tar-1.35
+- Xz-5.4.4
+- Binutils-2.41 - Pass 2
+- GCC-13.2.0 - Pass 2
