@@ -1,6 +1,6 @@
 ## Question
 
-### if VM restart happened
+### VM rebooted while running
 - Setting The $LFS Variable
 ```
 export LFS=/mnt/lfs
@@ -22,7 +22,9 @@ if [ -h $LFS/dev/shm ]; then
 else
   mount -t tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
 fi
-
+```
+- Login
+```
 chroot "$LFS" /usr/bin/env -i   \
     HOME=/root                  \
     TERM="$TERM"                \
@@ -30,18 +32,4 @@ chroot "$LFS" /usr/bin/env -i   \
     PATH=/usr/bin:/usr/sbin     \
     MAKEFLAGS="-j4"             \
     /bin/bash --login
-```
-- update setting files after finish
-```
-mount -v -t ext4 /dev/sdb3 $LFS
-
-chroot "$LFS" /usr/bin/env -i   \
-    HOME=/root                  \
-    TERM="$TERM"                \
-    PS1='(lfs chroot) \u:\w\$ ' \
-    PATH=/usr/bin:/usr/sbin     \
-    MAKEFLAGS="-j4"             \
-    /bin/bash --login
-
-cd $LFS
 ```
