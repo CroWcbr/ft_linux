@@ -24,6 +24,10 @@ EOF
 ```
 - Installation of the kernel
 ```
+Important in task requiment:
+	- change Makefile info (your login in EXTRAVERSION)
+	- move linux-XXX to /usr/src/kernel-XXX
+
 cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.4.12-<login>
 ```
 - Creating the GRUB Configuration File

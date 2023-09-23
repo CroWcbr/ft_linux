@@ -12,13 +12,13 @@ cat /etc/udev/rules.d/70-persistent-net.rules
 ip link - check name of network device
 
 
-cat > /etc/sysconfig/ifconfig.<name of network device> << "EOF"
+cat > /etc/sysconfig/ifconfig.enp0s3 << "EOF"
 ONBOOT=yes
-IFACE=<name of network device>
+IFACE=enp0s3
 SERVICE=dhclient
 DHCP_START=""
 DHCP_STOP=""
-
+EOF
 
 cat > /etc/resolv.conf << "EOF"
 # Begin /etc/resolv.conf

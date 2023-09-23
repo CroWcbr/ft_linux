@@ -6,7 +6,7 @@
 set new password for lfs
 you can change password using "passwd root"
 ```
-- install dhcpcd-10.0.2 (for internet)
 - install nano (I don't like vim)
+- install dhcpcd-10.0.2 (for internet)
 - save VM
 - clear lfs

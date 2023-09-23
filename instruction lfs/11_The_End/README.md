@@ -3,6 +3,9 @@
 - The new LFS system is installed
 - logout
 - unmount all
+```
+if target is busy add flag "-l"
+```
 - shutdown
 - delete disk with host system from VM
 - start VM
