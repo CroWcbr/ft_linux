@@ -2,7 +2,6 @@
 Make your own linux distribution
 
 ## Linux From Scratch - Version 12.0
-
 - https://linuxfromscratch.org/lfs/view/stable/index.html
 - https://linuxfromscratch.org/blfs/view/stable/index.html
 
@@ -12,6 +11,10 @@ Make your own linux distribution
 
 ## Instaction BLFS
 - some test with BLFS
+- I don' install graphic interface - it's too long ))) and i prefer terminal
+
+## Final version
+- For KFS modules I am going to use BLFS
 
 ## General instructions
 - For this subject, you must use a virtual machine, live VirtualBox or VMWare.
