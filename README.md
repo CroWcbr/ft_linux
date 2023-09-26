@@ -11,10 +11,10 @@ Make your own linux distribution
 
 ## Instaction BLFS
 - some test with BLFS
-- I don' install graphic interface - it's too long ))) and i prefer terminal
+- I don' install graphic interface - it's too long ))) and I prefer terminal
 
 ## Final version
-- For KFS modules I am going to use BLFS
+- For KFS modules I am going to use BLFS with ssh and wget installed.
 
 ## General instructions
 - For this subject, you must use a virtual machine, live VirtualBox or VMWare.
@@ -43,13 +43,11 @@ pa aus | grep udev
 ```
 uname
 ```
-- You must use a sofware for central management and configuration, like SysV or
-SystemD.
+- You must use a sofware for central management and configuration, like SysV or SystemD.
 ```
 - ps -p 1 -o comm=
 ```
 - Your distro must boot with a bootloader, like LILO or GRUB.
 ```
-mount -v -t ext4 /dev/sda1 /boot
-ls boot
+mount /boot
 ```
