@@ -16,3 +16,8 @@ usermod -a -G wheel blfs
 		- make-ca
 			- p11-kit-0.25.0
 				- libtasn1-4.19.0
+- whois
+- which
+
+### X Server, and window managers / desktop environments, like GNOME / LXDE / KDE / i3 / dwm
+I like terminal =) and there are a lot of package in requiment for graphical interface
