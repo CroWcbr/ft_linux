@@ -45,7 +45,7 @@ uname
 ```
 - You must use a sofware for central management and configuration, like SysV or SystemD.
 ```
-- ps -p 1 -o comm=
+ps -p 1 -o comm=
 ```
 - Your distro must boot with a bootloader, like LILO or GRUB.
 ```
